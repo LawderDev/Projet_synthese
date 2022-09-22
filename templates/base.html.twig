@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            {% block header %}
+            <nav>
+                    <a href="{{ path('default') }}">Accueil</a>
+                    <a href="{{ path('series_indexSeries') }}">Listes des series</a>
+                {% if app.user %}
+                    <a href="{{ path('series_following') }}">Series suivis<a/>
+                    <a href="{{ path('app_logout') }}">logout<a/>
+                {% else %}                                
+                    <a href="{{ path('app_login') }}">login</a>
+                    <a href="{{ path('app_register') }}">register</a>  
+                {% endif %}
+            </nav>
+            {% endblock %}
+        </header>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

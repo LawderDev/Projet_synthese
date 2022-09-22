@@ -1,0 +1,27 @@
+security:
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    encoders:
+        App\Entity\User: 'plaintext'
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\AppCustomAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+
+    access_control:
+         - { path: /admin, roles: ROLE_ADMIN }
+         - { path: /follow, roles: ROLE_USER }
+         - { path: /following, roles: ROLE_USER }
+         - { path: /seen, roles: ROLE_USER }

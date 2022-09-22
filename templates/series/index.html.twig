@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Series index{% endblock %}
+
+{% block body %}
+    <h1>Series index</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.recherche) }} 
+        {{ form_row(form.nom) }}
+    {{ form_end(form) }} 
+
+    {{ form_start(button_asc) }}
+        {{ form_row(button_asc.asc) }} 
+    {{ form_end(form) }} 
+
+    {{ form_start(button_dsc) }}
+        {{ form_row(button_dsc.dsc) }} 
+    {{ form_end(form) }} 
+
+    {% for i in 1..numberPage+1 %}
+            <a href="{{ path('series_index', {'pageNumber': i}) }}">{{ i }}</a>
+    {% endfor %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Plot</th>
+                <th>Imdb</th>
+                <th>Poster</th>
+                <th>Director</th>
+                <th>YoutubeTrailer</th>
+                <th>Awards</th>
+                <th>YearStart</th>
+                <th>YearEnd</th>
+                <th>rate</th>
+                <th>actions</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+        {# {% set size = series|length-1 %} #}
+        {% dump(series) %}
+        {% for i in 0..series|length-1 %} 
+            <tr>
+                <td>{{ series[i][0].id }}</td>
+                <td>{{ series[i][0].title }}</td>
+                <td>{{ series[i][0].plot }}</td>
+                <td>{{ series[i][0].imdb }}</td>
+                <td><img src={{ path('series_poster', {'id': series[i][0].id}) }})/></td>
+                <td>{{ series[i][0].director }}</td>
+                <td>{{ series[i][0].youtubeTrailer }}</td>
+                <td>{{ series[i][0].awards }}</td>
+                <td>{{ series[i][0].yearStart }}</td>
+                <td>{{ series[i][0].yearEnd }}</td>
+                {% if series[i][1] is defined %}
+                    <td>{{ series[i][1] }}</td>
+                {% else %}
+                    <td>Non noté</td>
+                {% endif %}
+                <td>
+                    <a href="{{ path('series_show', {'id': series[i][0].id}) }}">show</a>
+                    <a href="{{ path('series_edit', {'id': series[i][0].id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('series_new') }}">Create new</a>
+
+{% endblock %}
